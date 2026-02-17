@@ -13,6 +13,8 @@ class CharacterMismatch(Exception):
 class SaveFileException(Exception):
     pass
 
+
+
 def save_in_file(text):
     ans = input("Сохранить содержимое вывода в отдельный файл? [y/n]: ")
     if ans == 'y':
@@ -32,7 +34,7 @@ class SimpleCiphers:
         :param alphabet: Исходный алфавит (строка символов).
         """
         self.alphabet = alphabet
-        self.m = len(alphabet)
+        self.m = len(alphabet) - alphabet.count(".") - alphabet.count(" ") - alphabet.count(",")
     
     @staticmethod
     def gcd(a, b):
@@ -51,6 +53,9 @@ class SimpleCiphers:
             raise CharacterMismatch("Один или более символов не указаны в алфавите или наоборот")
         result = ''
         for char in text:
+            if char in [" ", ".", ","]:
+                result += char
+                continue
             index = self.alphabet.find(char)
             result += key[index]
         return result
@@ -61,6 +66,9 @@ class SimpleCiphers:
             raise CharacterMismatch("Один или более символов не указаны в алфавите или наоборот")
         result = ''
         for char in text:
+            if char in [" ", ".", ","]:
+                result += char
+                continue
             index = key.find(char)
             result += self.alphabet[index]
         return result   
@@ -73,7 +81,10 @@ class SimpleCiphers:
         if self.gcd(key_a, self.m) != 1 :
             raise KeyValidityError("Первое число ключа и мощность алфавита не взаимно просты")
         result = ''
-        for char in text:   
+        for char in text:
+            if char in [" ", ".", ","]:
+                result += char
+                continue   
             x = self.alphabet.find(char)    
             y = key_a * x + key_b
             result += self.alphabet[y % self.m]
@@ -85,6 +96,9 @@ class SimpleCiphers:
             raise KeyValidityError("Первое число ключа и мощность алфавита не взаимно просты")
         result = ''
         for char in text:
+            if char in [" ", ".", ","]:
+                result += char
+                continue
             y = self.alphabet.find(char)
             x = (y - key_b) * self.inverse(key_a)
             result += self.alphabet[x % self.m]
@@ -110,6 +124,9 @@ class SimpleCiphers:
         prev1_a, prev1_b = key_2a, key_2b #i - 1 элемент
         
         for i in range(2, len(text)):
+            if text[i] in [" ", ".", ","]:
+                result += text[i]
+                continue
             current_a = (prev1_a * prev2_a) % self.m
             current_b = (prev1_b + prev2_b) % self.m
             x = self.alphabet.find(text[i])
@@ -134,6 +151,10 @@ class SimpleCiphers:
         prev1_a, prev1_b = key_2a, key_2b #i - 1 элемент
         
         for i in range(2, len(text)):
+            if text[i] in [" ", ".", ","]:
+                result += text[i]
+                continue
+            
             current_a = (prev1_a * prev2_a) % self.m
             current_b = (prev1_b + prev2_b) % self.m
             y = self.alphabet.find(text[i])

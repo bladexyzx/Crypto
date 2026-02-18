@@ -26,7 +26,7 @@
       message: "В приложениях не может быть структурных заголовков или заголовков без нумерации",
     )
     counter("appendix").step()
-    block[#upper([приложение]) #numbering(
+    block[#upper([приложениe]) #numbering(
         it.numbering,
         ..counter(heading).at(
           it.location(),

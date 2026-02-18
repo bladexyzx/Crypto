@@ -1,7 +1,7 @@
 import math
 
 class KeyValidityError(Exception):
-    """Несоответствие мощности алфавита"""
+    """Некорректный ключ"""
     pass
 
 class CharacterMismatch(Exception):
@@ -11,6 +11,7 @@ class CharacterMismatch(Exception):
     pass
 
 class SaveFileException(Exception):
+    """Ошибка сохранения файла"""
     pass
 
 
@@ -96,7 +97,7 @@ class SimpleCiphers:
             raise KeyValidityError("Первое число ключа и мощность алфавита не взаимно просты")
         result = ''
         for char in text:
-            if char in [" ", ".", ","]:
+            if char in [" ", ".", ",", '\n']:
                 result += char
                 continue
             y = self.alphabet.find(char)
